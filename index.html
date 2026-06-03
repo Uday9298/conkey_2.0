@@ -1,219 +1,139 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Conkey — Consistency is the Key</title>
-    
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
-    
-    <script src="https://unpkg.com/lucide@latest"></script>
-
-    <style>
-        /* --- CSS STYLES --- */
-        :root {
-            --primary: #0A6EFF;
-            --primary-light: #5296FF;
-            --accent: #8b5cf6;
-            --success: #10b981;
-            --warning: #f59e0b;
-            --bg-primary: #0a0a14;
-            --bg-secondary: #121226;
-            --bg-glass: rgba(255, 255, 255, 0.05);
-            --text-primary: #f1f5f9;
-            --text-secondary: #94a3b8;
-            --border-color: rgba(255, 255, 255, 0.08);
-            --sidebar-width: 260px;
-        }
-
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Inter', sans-serif; background: var(--bg-primary); color: var(--text-primary); display: flex; min-height: 100vh; }
-        
-        /* Sidebar */
-        .sidebar { width: var(--sidebar-width); background: var(--bg-secondary); border-right: 1px solid var(--border-color); padding: 24px; }
-        .logo { font-family: 'Space Grotesk', sans-serif; font-size: 1.8rem; background: linear-gradient(135deg, var(--primary-light), var(--accent)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 32px; }
-        .nav-item { display: flex; align-items: center; gap: 12px; padding: 12px 16px; color: var(--text-secondary); text-decoration: none; border-radius: 12px; font-weight: 500; margin-bottom: 8px; cursor: pointer; }
-        .nav-item.active, .nav-item:hover { background: var(--bg-glass); color: var(--text-primary); }
-        .nav-item.active { border-left: 4px solid var(--primary); }
-
-        /* Main Workspace */
-        .main { flex: 1; display: flex; flex-direction: column; }
-        .header { height: 70px; border-bottom: 1px solid var(--border-color); display: flex; align-items: center; justify-content: space-between; padding: 0 32px; background: var(--bg-secondary); }
-        .user-info { display: flex; align-items: center; gap: 12px; }
-        .avatar { width: 40px; height: 40px; background: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; }
-        .content { padding: 32px; flex: 1; overflow-y: auto; }
-        
-        /* Views */
-        .view { display: none; flex-direction: column; gap: 24px; animation: fadeIn 0.4s ease; }
-        .view.active { display: flex; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-
-        /* Cards & Grid */
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; }
-        .card { background: rgba(255, 255, 255, 0.02); border: 1px solid var(--border-color); border-radius: 16px; padding: 24px; }
-        .stat-flex { display: flex; align-items: center; gap: 16px; }
-        .icon-box { padding: 12px; border-radius: 12px; display: flex; align-items: center; justify-content: center; }
-        .icon-box.flame { background: rgba(245, 158, 11, 0.1); color: var(--warning); }
-        .icon-box.star { background: rgba(10, 110, 255, 0.1); color: var(--primary); }
-        .progress-track { width: 100%; height: 8px; background: var(--bg-glass); border-radius: 10px; margin-top: 12px; overflow: hidden; }
-        .progress-fill { height: 100%; background: linear-gradient(90deg, var(--primary), var(--accent)); transition: width 0.3s ease; }
-
-        /* Habit List */
-        .habit-item { display: flex; justify-content: space-between; align-items: center; padding: 16px; background: var(--bg-glass); border-radius: 12px; border: 1px solid var(--border-color); margin-bottom: 12px; transition: transform 0.2s; }
-        .habit-item:hover { transform: translateX(5px); }
-        .habit-left { display: flex; align-items: center; gap: 16px; }
-        .check-btn { cursor: pointer; color: var(--text-secondary); transition: color 0.2s; }
-        .check-btn.done { color: var(--success); }
-    </style>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
 </head>
 <body>
 
-    <aside class="sidebar">
-        <h2 class="logo">CONKEY</h2>
-        <nav>
-            <div class="nav-item active" onclick="switchTab('dashboard')"><i data-lucide="layout-dashboard"></i> Dashboard</div>
-            <div class="nav-item" onclick="switchTab('habits')"><i data-lucide="check-square"></i> All Habits</div>
-            <div class="nav-item" onclick="switchTab('achievements')"><i data-lucide="trophy"></i> Achievements</div>
-        </nav>
-    </aside>
-
-    <main class="main">
-        <header class="header">
-            <div class="user-info">
-                <div class="avatar">A</div>
-                <div>
-                    <div style="font-weight: 600;">Alex Johnson</div>
-                    <div style="font-size: 0.8rem; color: var(--text-secondary);" id="header-level">Level 12 Scholar</div>
-                </div>
+    <div class="app-container">
+        
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h1 class="logo">CONKEY</h1>
             </div>
-            <i data-lucide="bell" style="color: var(--text-secondary); cursor:pointer;"></i>
-        </header>
-
-        <div class="content">
-            <div id="dashboard" class="view active">
-                <div>
-                    <h1 style="font-family: 'Space Grotesk'; font-size: 2rem;">Welcome back! 👋</h1>
-                    <p style="color: var(--text-secondary);">Keep up your daily streaks and build unbreakable consistency.</p>
-                </div>
-                
-                <div class="grid">
-                    <div class="card stat-flex">
-                        <div class="icon-box flame"><i data-lucide="flame" size="32"></i></div>
-                        <div>
-                            <div style="color: var(--text-secondary); font-size: 0.9rem;">Current Streak</div>
-                            <div style="font-size: 1.8rem; font-weight: bold;" id="streak-text">15 Days</div>
-                        </div>
-                    </div>
-                    <div class="card stat-flex" style="grid-column: span 2;">
-                        <div class="icon-box star"><i data-lucide="star" size="32"></i></div>
-                        <div style="flex: 1;">
-                            <div style="display: flex; justify-content: space-between;">
-                                <span style="color: var(--text-secondary); font-size: 0.9rem;">Level Progress</span>
-                                <span style="font-weight: bold; font-family: 'JetBrains Mono';" id="xp-text">2150 / 3500 XP</span>
-                            </div>
-                            <div class="progress-track"><div class="progress-fill" id="xp-bar" style="width: 61%"></div></div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <h3 style="margin-bottom: 16px;">Today's Focus</h3>
-                    <div id="habit-container"></div>
-                </div>
-            </div>
-
-            <div id="habits" class="view">
-                <h1 style="font-family: 'Space Grotesk'; font-size: 2rem;">Habit Management Room</h1>
-                <div id="full-habit-container"></div>
-            </div>
-
-            <div id="achievements" class="view">
-                <h1 style="font-family: 'Space Grotesk'; font-size: 2rem;">Trophy Room</h1>
-                <div class="grid">
-                    <div class="card">
-                        <h1 style="font-size: 2.5rem; margin-bottom: 8px;">🎯</h1>
-                        <h3>First Steps</h3>
-                        <p style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 4px;">Completed your first habit.</p>
-                        <div style="margin-top: 12px; color: var(--success); font-weight: bold; font-size: 0.8rem;">UNLOCKED</div>
-                    </div>
-                    <div class="card">
-                        <h1 style="font-size: 2.5rem; margin-bottom: 8px;">🔥</h1>
-                        <h3>Unstoppable</h3>
-                        <p style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 4px;">Reached a 15-day streak.</p>
-                        <div style="margin-top: 12px; color: var(--success); font-weight: bold; font-size: 0.8rem;">UNLOCKED</div>
-                    </div>
-                    <div class="card" style="opacity: 0.5;">
-                        <h1 style="font-size: 2.5rem; margin-bottom: 8px;">👑</h1>
-                        <h3>Deep Work</h3>
-                        <p style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 4px;">50 total study hours.</p>
-                        <div style="margin-top: 12px; color: var(--primary); font-weight: bold; font-size: 0.8rem;">LOCKED (Requires 1000 XP)</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </main>
-
-    <script>
-        // State
-        const user = { xp: 2150, next: 3500, level: 12 };
-        const habits = [
-            { id: 1, name: 'Study Mathematics', meta: 'Study • 08:00 AM', xp: 150, done: true, icon: '📚' },
-            { id: 2, name: 'Morning Run', meta: 'Exercise • 06:00 AM', xp: 100, done: false, icon: '🏃' },
-            { id: 3, name: 'Read 30 Pages', meta: 'Reading • 09:00 PM', xp: 100, done: false, icon: '📖' },
-            { id: 4, name: 'Meditation', meta: 'Health • 07:00 AM', xp: 50, done: true, icon: '🧘' }
-        ];
-
-        // Tab Switcher
-        function switchTab(tabId) {
-            document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
-            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-            document.getElementById(tabId).classList.add('active');
-            event.currentTarget.classList.add('active');
-        }
-
-        // Render Data
-        function renderUI() {
-            // Render XP
-            document.getElementById('xp-text').innerText = `${user.xp} / ${user.next} XP`;
-            document.getElementById('header-level').innerText = `Level ${user.level} Scholar`;
-            document.getElementById('xp-bar').style.width = `${Math.min((user.xp / user.next) * 100, 100)}%`;
-
-            // Render Habits
-            const html = habits.map(h => `
-                <div class="habit-item">
-                    <div class="habit-left">
-                        <span style="font-size: 1.5rem;">${h.icon}</span>
-                        <div>
-                            <div style="font-weight: 600; ${h.done ? 'text-decoration: line-through; opacity: 0.5;' : ''}">${h.name}</div>
-                            <div style="font-size: 0.8rem; color: var(--text-secondary);">${h.meta} <span style="color: var(--primary-light)">+${h.xp} XP</span></div>
-                        </div>
-                    </div>
-                    <i data-lucide="${h.done ? 'check-circle-2' : 'circle'}" class="check-btn ${h.done ? 'done' : ''}" onclick="toggleHabit(${h.id})"></i>
-                </div>
-            `).join('');
-
-            document.getElementById('habit-container').innerHTML = html;
-            document.getElementById('full-habit-container').innerHTML = html;
-            lucide.createIcons();
-        }
-
-        // Click interaction
-        function toggleHabit(id) {
-            const habit = habits.find(h => h.id === id);
-            habit.done = !habit.done;
-            user.xp += habit.done ? habit.xp : -habit.xp;
             
-            // Level up logic
-            if(user.xp >= user.next) {
-                user.level++;
-                user.xp -= user.next;
-                alert('🎉 LEVEL UP!');
-            }
-            renderUI();
-        }
+            <nav class="sidebar-nav">
+                <a href="#" class="nav-item active"><i class='bx bxs-dashboard'></i> Dashboard</a>
+                <a href="#" class="nav-item"><i class='bx bx-check-square'></i> Habits</a>
+                <a href="#" class="nav-item"><i class='bx bx-trophy'></i> Achievements</a>
+                <a href="#" class="nav-item"><i class='bx bx-user'></i> Profile</a>
+                <a href="#" class="nav-item"><i class='bx bx-cog'></i> Settings</a>
+            </nav>
 
-        // Start App
-        renderUI();
-    </script>
+            <div class="sidebar-profile">
+                <div class="avatar">A</div>
+                <div class="profile-info">
+                    <span class="profile-name">Alex Johnson</span>
+                    <span class="profile-title">Level 12 Scholar</span>
+                </div>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <header class="welcome-header">
+                <h2>Welcome back, Alex! 👋</h2>
+                <p>Keep up your daily streaks and build unbreakable consistency.</p>
+            </header>
+
+            <section class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon-wrap"><i class='bx bxs-flame'></i></div>
+                    <div>
+                        <span class="stat-label">Current Streak</span>
+                        <h3 class="stat-value">15 Days</h3>
+                    </div>
+                </div>
+
+                <div class="stat-card progress-card">
+                    <div class="progress-info">
+                        <div>
+                            <span class="stat-label">Level Progress</span>
+                            <h3 class="stat-value"><i class='bx bx-star'></i> 2840 / 3500 XP</h3>
+                        </div>
+                    </div>
+                    <div class="progress-bar-container">
+                        <div class="progress-bar-fill" style="width: 81%;"></div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="habits-section">
+                <h3>Today's Habits Tracker</h3>
+                
+                <div class="habits-list">
+                    <div class="habit-item completed">
+                        <div class="habit-left">
+                            <span class="habit-emoji">📚</span>
+                            <div class="habit-details">
+                                <h4>Study Mathematics</h4>
+                                <p>Study • 08:00 • <span>+150 XP</span></p>
+                            </div>
+                        </div>
+                        <div class="habit-action">
+                            <i class='bx bxs-check-circle'></i>
+                        </div>
+                    </div>
+
+                    <div class="habit-item">
+                        <div class="habit-left">
+                            <span class="habit-emoji">🏃</span>
+                            <div class="habit-details">
+                                <h4>Morning Run</h4>
+                                <p>Exercise • 06:00 • <span>+100 XP</span></p>
+                            </div>
+                        </div>
+                        <div class="habit-action">
+                            <i class='bx bx-circle'></i>
+                        </div>
+                    </div>
+
+                    <div class="habit-item">
+                        <div class="habit-left">
+                            <span class="habit-emoji">📖</span>
+                            <div class="habit-details">
+                                <h4>Read 30 Pages</h4>
+                                <p>Reading • 21:00 • <span>+100 XP</span></p>
+                            </div>
+                        </div>
+                        <div class="habit-action">
+                            <i class='bx bx-circle'></i>
+                        </div>
+                    </div>
+
+                    <div class="habit-item completed">
+                        <div class="habit-left">
+                            <span class="habit-emoji">🧘</span>
+                            <div class="habit-details">
+                                <h4>Meditation</h4>
+                                <p>Meditation • 07:00 • <span>+50 XP</span></p>
+                            </div>
+                        </div>
+                        <div class="habit-action">
+                            <i class='bx bxs-check-circle'></i>
+                        </div>
+                    </div>
+
+                    <div class="habit-item">
+                        <div class="habit-left">
+                            <span class="habit-emoji">💻</span>
+                            <div class="habit-details">
+                                <h4>LeetCode Practice</h4>
+                                <p>Coding • 14:00 • <span>+200 XP</span></p>
+                            </div>
+                        </div>
+                        <div class="habit-action">
+                            <i class='bx bx-circle'></i>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+    </div>
+
 </body>
 </html>
