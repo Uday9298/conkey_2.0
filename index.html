@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Conkey - Gamified Habit Tracker</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <aside class="sidebar">
+    <div class="sidebar-brand">
+      <h2>Conkey</h2>
+    </div>
+    <nav class="sidebar-menu">
+      <button class="nav-item active" onclick="switchPage('dashboard')">
+        <span class="nav-icon">📊</span><span class="nav-label">Dashboard</span>
+      </button>
+      <button class="nav-item" onclick="switchPage('habits')">
+        <span class="nav-icon">📋</span><span class="nav-label">My Habits</span>
+      </button>
+      <button class="nav-item" onclick="switchPage('achievements')">
+        <span class="nav-icon">🏆</span><span class="nav-label">Achievements</span>
+      </button>
+      <button class="nav-item" onclick="switchPage('profile')">
+        <span class="nav-icon">👤</span><span class="nav-label">Profile</span>
+      </button>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="user-avatar">AJ</div>
+      <div class="user-info">
+        <p class="user-name">Alex Johnson</p>
+        <p class="user-level">Lvl 12 · Scholar</p>
+      </div>
+    </div>
+  </aside>
+
+  <main class="main-content">
+
+    <div id="dashboard" class="page-view active">
+      <header class="dashboard-header">
+        <h1>Good morning, Alex! 👋</h1>
+        <p>You're on a 15-day streak. Keep it up!</p>
+      </header>
+
+      <section class="stats-grid">
+        <div class="stat-card">
+          <span class="stat-icon">✨</span>
+          <div>
+            <h3 id="xp-display">2930</h3>
+            <p>Total XP</p>
+          </div>
+        </div>
+        <div class="stat-card">
+          <span class="stat-icon">🔥</span>
+          <div>
+            <h3>15 Days</h3>
+            <p>Current Streak</p>
+          </div>
+        </div>
+        <div class="stat-card">
+          <span class="stat-icon">✅</span>
+          <div>
+            <h3 id="progress-display">2/4</h3>
+            <p>Today's Progress</p>
+          </div>
+        </div>
+      </section>
+
+      <div class="dashboard-content-split">
+        <section class="panel-section">
+          <h2>Today's Habits</h2>
+          <div class="habits-list" id="dashboard-habits-container">
+            </div>
+        </section>
+
+        <section class="panel-section">
+          <h2>Weekly Activity</h2>
+          <div class="week-graph">
+            <div class="day-column"><div class="day-bar partial"></div><span class="day-label">Mon</span></div>
+            <div class="day-column"><div class="day-bar full"></div><span class="day-label">Tue</span></div>
+            <div class="day-column"><div class="day-bar full"></div><span class="day-label">Wed</span></div>
+            <div class="day-column"><div class="day-bar full"></div><span class="day-label">Thu</span></div>
+            <div class="day-column"><div class="day-bar partial"></div><span class="day-label">Fri</span></div>
+            <div class="day-column"><div class="day-bar empty"></div><span class="day-label">Sat</span></div>
+            <div class="day-column"><div class="day-bar empty"></div><span class="day-label">Sun</span></div>
+          </div>
+          <p class="best-day-text">Best day: Thursday (8/8 habits ✨)</p>
+          
+          <blockquote class="quote-box">
+            <p>"Motivation is what gets you started. Habit is what keeps you going."</p>
+            <cite>— Jim Ryun</cite>
+          </blockquote>
+        </section>
+      </div>
+    </div>
+
+    <div id="habits" class="page-view">
+      <div class="panel-section">
+        <h2>📋 Detailed Habit Management</h2>
+        <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Track, organize, and check off your academic daily goals.</p>
+        <div class="habits-list" id="management-habits-container">
+          </div>
+      </div>
+    </div>
+
+    <div id="achievements" class="page-view">
+      <div class="panel-section">
+        <h2>🏆 Achievements & Badges</h2>
+        <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Your unlocked trophies and upcoming rewards milestones.</p>
+        <div class="achievements-grid">
+          <div class="stat-card unlocked-badge">
+            <span style="font-size: 2.5rem;">🌅</span>
+            <div>
+              <h4>Early Bird</h4>
+              <p style="font-size: 0.85rem; color: var(--text-muted);">Complete a habit before 7 AM</p>
+            </div>
+          </div>
+          <div class="stat-card unlocked-badge">
+            <span style="font-size: 2.5rem;">📐</span>
+            <div>
+              <h4>Math Wizard</h4>
+              <p style="font-size: 0.85rem; color: var(--text-muted);">Maintain a 7-day streak in math</p>
+            </div>
+          </div>
+          <div class="stat-card locked-badge">
+            <span style="font-size: 2.5rem;">💯</span>
+            <div>
+              <h4>Century Club</h4>
+              <p style="font-size: 0.85rem; color: var(--text-muted);">Reach a 100-day habit streak</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="profile" class="page-view">
+      <div class="panel-section profile-card-width">
+        <h2>👤 Student Profile</h2>
+        <div class="profile-header">
+          <div class="profile-avatar">AJ</div>
+          <div>
+            <h3>Alex Johnson</h3>
+            <p style="color: var(--text-muted)">alex.johnson@student.edu</p>
+            <p style="color: var(--accent-color); font-weight: bold; margin-top: 0.3rem">Level 12 (Scholar)</p>
+          </div>
+        </div>
+        <div class="progress-container">
+          <div style="display: flex; justify-content: space-between; font-size: 0.9rem;">
+            <span>Level Progress</span>
+            <span id="profile-xp-text">2930 / 5200 XP</span>
+          </div>
+          <div class="progress-bar-bg">
+            <div id="profile-bar-fill" class="progress-bar-fill"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <script>
+    let totalXp = 2930;
+    const habits = [
+      { id: 1, name: "Study Mathematics", xp: 15, completed: true },
+      { id: 2, name: "Morning Run", xp: 8, completed: false },
+      { id: 3, name: "Read 30 Pages", xp: 12, completed: false },
+      { id: 4, name: "Meditation", xp: 20, completed: true }
+    ];
+
+    function switchPage(pageId) {
+      document.querySelectorAll('.page-view').forEach(p => p.classList.remove('active'));
+      document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
+
+      document.getElementById(pageId).classList.add('active');
+      event.currentTarget.classList.add('active');
+    }
+
+    function toggleHabit(id) {
+      const habit = habits.find(h => h.id === id);
+      if (habit) {
+        habit.completed = !habit.completed;
+        totalXp += habit.completed ? habit.xp : -habit.xp;
+        renderApp();
+      }
+    }
+
+    function renderApp() {
+      document.getElementById('xp-display').innerText = totalXp;
+      document.getElementById('profile-xp-text').innerText = `${totalXp} / 5200 XP`;
+      
+      const progressPercent = Math.min((totalXp / 5200) * 100, 100);
+      document.getElementById('profile-bar-fill').style.width = `${progressPercent}%`;
+
+      const completedCount = habits.filter(h => h.completed).length;
+      document.getElementById('progress-display').innerText = `${completedCount}/${habits.length}`;
+
+      const dashboardContainer = document.getElementById('dashboard-habits-container');
+      const managementContainer = document.getElementById('management-habits-container');
+      
+      let dashboardHtml = '';
+      let managementHtml = '';
+
+      habits.forEach(habit => {
+        const itemHtml = `
+          <div class="habit-item ${habit.completed ? 'completed' : ''}">
+            <input type="checkbox" ${habit.completed ? 'checked' : ''} onchange="toggleHabit(${habit.id})">
+            <div class="habit-details">
+              <span class="habit-name">${habit.name}</span>
+              <span class="habit-xp">+${habit.xp} XP</span>
+            </div>
+          </div>
+        `;
+        dashboardHtml += itemHtml;
+        managementHtml += itemHtml;
+      });
+
+      dashboardContainer.innerHTML = dashboardHtml;
+      managementContainer.innerHTML = managementHtml;
+    }
+
+    window.onload = renderApp;
+  </script>
+</body>
+</html>
